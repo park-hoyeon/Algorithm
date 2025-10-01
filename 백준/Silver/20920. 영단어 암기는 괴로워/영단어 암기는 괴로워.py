@@ -6,6 +6,7 @@ words = {}
 for _ in range(n):
     word = input().strip()
     if len(word) >= m:
-        words[word] = words.get(word, 0) + 1
+        if word in words: words[word] += 1
+        else: words[word] = 1
 
 print(*sorted(words, key=lambda x:[-words[x], -len(x), x]), sep='\n')
