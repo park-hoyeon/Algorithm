@@ -9,10 +9,10 @@ for _ in range(n):
     day.append(t)
     money.append(p)
 
-for i in range(n-1,-1, -1):
-    if i + day[i] <= n:
-        dp[i] = max(money[i]+dp[i+day[i]], max_value)
-    else:
-        dp[i] = max_value
-    max_value = dp[i]
-print(max_value)
+for i in range(n):
+    dp[i+1] = max(dp[i+1], dp[i])
+
+    end = i + day[i]
+    if end <= n:
+        dp[end] = max(dp[end], dp[i]+money[i])
+print(dp[n])
