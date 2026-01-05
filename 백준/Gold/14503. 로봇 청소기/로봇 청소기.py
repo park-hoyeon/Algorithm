@@ -21,7 +21,7 @@ def dfs(x,y,d):
         count += 1
 
     for _ in range(4):
-        d = (d+3) % 4
+        d = (d-1) % 4
         nx = dx[d] + x
         ny = dy[d] + y
 
