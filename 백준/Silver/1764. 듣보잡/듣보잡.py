@@ -1,0 +1,6 @@
+n,m = map(int, input().split())
+listen=set(input() for _ in range(n))
+see=set(input() for _ in range(m))
+answer=sorted(listen&see)
+print(len(answer))
+for name in answer: print(name)
