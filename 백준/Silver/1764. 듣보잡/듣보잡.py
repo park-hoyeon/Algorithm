@@ -1,6 +1,15 @@
 n,m = map(int, input().split())
-listen=set(input() for _ in range(n))
-see=set(input() for _ in range(m))
-answer=sorted(listen&see)
-print(len(answer))
-for name in answer: print(name)
+
+heard = set()
+for _ in range(n):
+    heard.add(input().strip())
+
+both = []
+for _ in range(m):
+    name = input().strip()
+    if name in heard:
+        both.append(name)
+
+both.sort()
+print(len(both))
+print("\n".join(both))
