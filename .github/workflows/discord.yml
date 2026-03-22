@@ -1,0 +1,18 @@
+name: Discord Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send commit URL only
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content": "${{ github.event.head_commit.url }}"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
