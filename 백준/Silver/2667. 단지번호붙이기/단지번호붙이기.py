@@ -1,41 +1,32 @@
-from collections import deque
-
-dx = [0,0,-1,1]
-dy = [-1,1,0,0]
-
-def bfs(x,y):
-    q = deque()
-    q.append((x,y))
-    visited[y][x] = True
-    global house
-    house = 1
-
-    while q:
-        x,y = q.popleft()
-        for i in range(4):
-            nx = dx[i] + x
-            ny = dy[i] + y
-
-
-            if 0<= nx < n and 0<=ny<n and not visited[ny][nx] and graph[ny][nx] == 1:
-                house+=1
-                visited[ny][nx] = True
-                q.append((nx, ny))
-    return house
-
-
 n = int(input())
 graph = [list(map(int, input().strip())) for _ in range(n)]
-visited = [[False]*n for _ in range(n)]
-count = 0
-house_list=[]
 
-for y in range(n):
-    for x in range(n):
-        if graph[y][x] == 1 and not visited[y][x]:
-            count+=1
-            house_list.append(bfs(x,y))
+dx = [0,0,1,-1]
+dy = [1,-1,0,0]
 
-print(count)
-for i in sorted(house_list):
+def dfs(x,y):
+    if x < 0 or x >= n or y < 0 or y >= n:
+        return 0
+    if graph[x][y] == 0:
+        return 0
+    
+    graph[x][y] = 0
+    count = 1
+
+    for i in range(4):
+        nx = dx[i] + x
+        ny = dy[i] + y
+        count += dfs(nx,ny)
+    return count
+
+answer = []
+
+for i in range(n):
+    for j in range(n):
+        if graph[i][j] == 1:
+            answer.append(dfs(i,j))
+
+answer.sort()
+print(len(answer))
+for i in answer:
     print(i)
