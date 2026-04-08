@@ -1,25 +1,25 @@
-import sys
-input = sys.stdin.readline
-
 n = int(input())
+graph = [list(map(int, input().split())) for _ in range(n)]
 dp = [[0]*n for _ in range(n)]
+
 dp[0][0] = 1
 
-graph = [list(map(int, input().split())) for _ in range(n)]
+dx = [0, 1]
+dy = [1, 0]
 
-for i in range(n):
-    for j in range(n):
-        if dp[i][j] == 0:
+for x in range(n):
+    for y in range(n):
+        if dp[x][y] == 0:
             continue
-        jump = graph[i][j]
-        if jump == 0:
+        if x == n-1 and y == n-1:
             continue
 
-        ni = i + jump
-        nj = j + jump
+        jump = graph[x][y]
 
-        if ni < n:
-            dp[ni][j] +=dp[i][j]
-        if nj < n:
-            dp[i][nj] += dp[i][j]
+        for i in range(2):
+            nx = x + dx[i]*jump
+            ny = y + dy[i]*jump
+
+            if 0 <= nx < n and 0 <= ny < n:
+                dp[nx][ny] += dp[x][y]
 print(dp[n-1][n-1])
