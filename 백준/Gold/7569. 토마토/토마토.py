@@ -1,32 +1,35 @@
 from collections import deque
 
-m, n, h = map(int, input().split())
-graph = [[list(map(int, input().split())) for _ in range(n)] for _ in range(h)]
+m,n,h = map(int, input().split())
+graph = [[list(map(int,input().split())) for _ in range(n)] for _ in range(h)]
 
 dz = [1,-1,0,0,0,0]
 dx = [0,0,-1,1,0,0]
 dy = [0,0,0,0,-1,1]
 
-q = deque()
+tomato = deque()
 
-for z in range(h):
-    for x in range(n):
-        for y in range(m):
-            if graph[z][x][y] == 1:
-                q.append((z,x,y))
+for a in range(h):
+    for i in range(n):
+        for j in range(m):
+            if graph[a][i][j] == 1:
+                tomato.append((a,i,j))
 
-while q:
-    z,x,y = q.popleft()
+while tomato:   
+    z,x,y = tomato.popleft()
+
     for i in range(6):
-        nz = dz[i] + z
         nx = dx[i] + x
         ny = dy[i] + y
-        if 0<=nz<h and 0<=nx<n and 0<=ny<m:
-            if graph[nz][nx][ny] == 0:
-                graph[nz][nx][ny] = graph[z][x][y] + 1
-                q.append((nz,nx,ny))
-            
+        nz = dz[i] + z
+
+        if 0<=nx<n and 0<=ny<m and 0<=nz<h and graph[nz][nx][ny] == 0:
+            graph[nz][nx][ny] = graph[z][x][y] + 1
+           
+            tomato.append((nz,nx,ny))
+
 answer = 0
+
 for z in range(h):
     for x in range(n):
         for y in range(m):
