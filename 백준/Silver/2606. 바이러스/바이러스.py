@@ -9,11 +9,19 @@ for _ in range(pair):
     graph[a].append(b)
     graph[b].append(a)
 
-def dfs(start):
-    visited[start] = True
+count = 0
 
-    for next in graph[start]:
-        if not visited[next]:
-            dfs(next)
-dfs(1)
-print(visited.count(True) - 1)
+def dfs(x):
+    global count
+    if not visited[x]:
+        visited[x] = True
+
+    for i in graph[x]:
+        if not visited[i]:
+            visited[i] = True
+            count += 1
+            dfs(i)
+
+    return count
+
+print(dfs(1))      
