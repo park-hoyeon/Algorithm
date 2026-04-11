@@ -1,30 +1,29 @@
-import sys
-input = sys.stdin.readline
 from collections import deque
 
 n,k = map(int, input().split())
-MAX = 100000
-road = [-1] * (MAX + 1)
+MAX = 1000000
 
-queue = deque()
-queue.append(n)
-road[n] = 1
+def bfs(n,k):
+    dist = [-1] * (MAX+1)
+    q = deque()
+    q.append(n)
+    dist[n] = 0
 
-while queue:
-    popN = queue.popleft()
-    if popN == k:
-        print(road[k]-1)
-        break
-    for newN in (2*popN, popN-1, popN+1):
-        if not (0<=newN<=MAX):
-            continue
+    while q:
+        x = q.popleft()
 
-        if road[newN] != -1:
-            continue
+        if x == k:
+            return dist[x]
+        
+        next2 = x*2
+        if 0 <= next2 <= MAX and dist[next2] == -1:
+                dist[next2] = dist[x]
+                q.append(next2)
 
-        if newN == 2 * popN:
-            road[newN] = road[popN]
-            queue.appendleft(newN)
-        else:
-            road[newN] = road[popN] + 1
-            queue.append(newN)
+        for next in (x-1,x+1):
+            if 0 <= next <= MAX and dist[next] == -1:
+                dist[next] = dist[x]  + 1
+                q.append(next)
+
+    return dist[k]
+print(bfs(n,k))
