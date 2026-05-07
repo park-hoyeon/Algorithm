@@ -1,30 +1,28 @@
-import heapq
-INF = int(1e9)
+from collections import deque
 
 def solution(n, edge):
+    answer = 0
     
-    start = 1
     graph = [[] for _ in range(n+1)]
-    distance = [INF] * (n+1)
-    
     for a,b in edge:
-        graph[a].append((b,1))
-        graph[b].append((a, 1))
+        graph[a].append(b)
+        graph[b].append(a)
+        
+    distance = [-1] * (n+1)
     
-    q = []
-    heapq.heappush(q,(0,start))
-    distance[start] = 0
+    def bfs(start):
+        q = deque()
+        q.append(start)
+        distance[start] = 0
+        
+        while q:
+            x = q.popleft()
+            for next in graph[x]:
+                if distance[next] == -1:
+                    distance[next] = distance[x] + 1
+                    q.append(next)
     
-    while q:
-        dist, now = heapq.heappop(q)
-        if distance[now] < dist:
-            continue
-        for i in graph[now]:
-            cost = dist + i[1]
-            if cost < distance[i[0]]:
-                distance[i[0]] = cost
-                heapq.heappush(q,(cost, i[0]))
-    
-    max_dist = max(distance[1:])
-    return distance.count(max_dist)
-    
+    bfs(1)
+                    
+    max_distance = max(distance)
+    return distance.count(max_distance)
