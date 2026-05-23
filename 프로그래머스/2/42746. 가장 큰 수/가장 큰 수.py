@@ -1,10 +1,8 @@
 def solution(numbers):
-    num = list(map(str,numbers))
-    num.sort(key = lambda x: x*3, reverse=True)
-    answer = ''.join(num)
     
-    if answer[0] == '0':
-        return '0'
-    else:
-        return answer
+    sorted_list = list(map(str, numbers))
     
+    sorted_list.sort(key = lambda x: x * 3, reverse = True)
+    
+    answer = ''.join(sorted_list)
+    return str(int(answer))
